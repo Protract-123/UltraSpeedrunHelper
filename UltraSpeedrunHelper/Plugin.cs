@@ -1,14 +1,11 @@
 ﻿using BepInEx;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using UltraSpeedrunHelper.Speedrun;
-using GameConsole;
 using UltraSpeedrunHelper.UltraSpeedrunHelper.UI;
 using HarmonyLib;
 
 namespace UltraSpeedrunHelper
 {
-    [BepInPlugin("protract.uk.speedrunhelper", "SpeedrunHelper", "0.1.0")]
+    [BepInPlugin("protract.uk.speedrunhelper", "SpeedrunHelper", "1.0.0")]
     [BepInProcess("ULTRAKILL.exe")]
 
     public class Plugin : BaseUnityPlugin

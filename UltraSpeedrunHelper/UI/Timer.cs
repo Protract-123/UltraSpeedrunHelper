@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using UltraSpeedrunHelper.Speedrun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using Console = GameConsole.Console;
-using Object = UnityEngine.Object;
 
 namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
 {
@@ -13,110 +10,57 @@ namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
     {
         StatsManager stats = MonoSingleton<StatsManager>.Instance;
         float seconds;
+        string timeString;
+        public string stringToEdit = "";
 
-
-        Text text;
-        private void Start()
+        private void OnGUI()
         {
-            
-            bool usrh = false;
-            bool gif = false;
-
-            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-            GameObject hud = camera.GetComponentInChildren<HudController>().gameObject;
-            
-            GameObject canvasGO = new GameObject("SHCanvas");
-            canvasGO.AddComponent<Canvas>();
-            
-            Canvas canvas = canvasGO.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvasGO.AddComponent<CanvasScaler>();
-            canvasGO.AddComponent<GraphicRaycaster>();
-            canvasGO.AddComponent<HUDPos>();
-
-            canvasGO.transform.parent = hud.transform;
-
-
-
-            AssetBundle bundle = null;
-            AssetBundle gifBundle = null;
-
-            IEnumerable assetBundles = AssetBundle.GetAllLoadedAssetBundles();
-            foreach (AssetBundle assetBundle in assetBundles) {
-                Console.print(assetBundle.name);
-                if(assetBundle.name == "ursh")
-                {
-                    usrh = true;
-                }
-                if(assetBundle.name == "gif")
-                {
-                    gif = true; 
-                }
-
-            }
-            if (!usrh) {
-                bundle = AssetBundle.LoadFromMemory(Properties.Resources.usrh);
-            }
-            if (!gif)
+            GameObject gameObject = GameObject.Find("Player");
+            Rect rect = new Rect(new Vector2(20f, 20f), new Vector2(600f, 600f));
+            Rect rect2 = new Rect(new Vector2(20f, 20f), new Vector2(100f, 20f));
+            bool flag = gameObject != null;
+            if (flag)
             {
-                gifBundle = AssetBundle.LoadFromMemory(Properties.Resources.gif);
-            }
+                stringToEdit = GUI.TextField(rect2, stringToEdit, 25);
 
+                rect.y += 20f;                
+                
+                GUI.Label(rect, timeString);
+                
 
-            if (bundle != null)
-            {
-
-
-
-                Object[] assets = bundle.LoadAllAssets();
-                Console.print(assets[0].name);
-                Console.print(assets[1].name);
-
-                if (canvas != null)
+                rect.y += 20f;
+                string text = "";
+                text = string.Concat(new string[]
                 {
-
-                    GameObject timer = new GameObject("Timer");
-                    timer.AddComponent<HudOpenEffect>();
-                    RectTransform timerSize = timer.GetComponent<RectTransform>();
-                    timer.transform.parent = canvasGO.transform;
-
-                    if (timerSize == null)
-                    {
-                        timerSize = timer.AddComponent<RectTransform>();
-                    }
-                    timerSize.sizeDelta = new Vector2(100, 50);
-
-                    Image image = timer.AddComponent<Image>();
-
-                    Texture2D asset1 = bundle.LoadAsset<Texture2D>(assets[0].name);
-                    Texture2D asset2 = bundle.LoadAsset<Texture2D>(assets[1].name);
-                    Console.print(asset2);
-
-                    Sprite header = LoadSprite(asset2, Vector4.zero, 100);
-                    image.sprite = header;
-
-                    GameObject stopwatch = new GameObject("Stopwatch");
-                    DontDestroyOnLoad(stopwatch);
-                    stopwatch.transform.parent = timer.transform;
-
-                    GameObject textGO = new GameObject("TimerText");
-                    DontDestroyOnLoad(textGO);
-                    text = textGO.AddComponent<Text>();
-                    textGO.transform.parent = timer.transform;
-                    
-
-
-                }
-
-            } 
-            else Console.print("Bundle Not Loaded");
-
+                text
+                });
+                GUI.Label(rect, text);
+                rect.y += 20f;
+            }
         }
+
         private void Update()
         {
 
 
             SceneManager.sceneLoaded += OnSceneLoaded;
+
+            Scene scene = SceneManager.GetActiveScene();
+            bool reset = false;
+
+            if (scene.name.Contains("Level"))
+            {
+                reset = false;
+            }
+            else reset = true;
+
+            if(reset == true)
+            {
+                if (Keyboard.current.lKey.wasPressedThisFrame)
+                {
+                    SpeedrunHelper.currentTime = 0;
+                }
+            }
 
             if (stats != null)
             {
@@ -125,16 +69,14 @@ namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
                     seconds = stats.seconds + SpeedrunHelper.currentTime;
 
                     TimeSpan time = TimeSpan.FromSeconds(seconds);
-                    string timeString = time.ToString(@"h\:mm\:ss\.fff");
-                    Console.print(timeString);
+                    timeString = time.ToString(@"h\:mm\:ss\.fff");
                 }
                 if (SpeedrunHelper.addLevelTime == false)
                 {
                     seconds = SpeedrunHelper.currentTime;
 
                     TimeSpan time = TimeSpan.FromSeconds(seconds);
-                    string timeString = time.ToString(@"h\:mm\:ss\.fff");
-                    Console.print(timeString);
+                    timeString = time.ToString(@"h\:mm\:ss\.fff");
                 }
             }
         }
@@ -149,7 +91,7 @@ namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
 
         }
 
-            public static Sprite LoadSprite(Texture2D texture, Vector4 border, float pixelsPerUnit)
+        public static Sprite LoadSprite(Texture2D texture, Vector4 border, float pixelsPerUnit)
         {
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), pixelsPerUnit, 0, SpriteMeshType.Tight, border);
         }
