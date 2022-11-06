@@ -3,6 +3,7 @@
 <h2>Features</h2>
 
 1.An IGT timer so you dont need to time your runs
+
 2.A category display in the top left as run information
 
 
