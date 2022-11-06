@@ -5,7 +5,7 @@
         public static string levelStart;
         public static string levelEnd;
         public static float currentTime;
-        public static string category;
+        public static string category = "";
         public static bool addLevelTime;
     }
 }

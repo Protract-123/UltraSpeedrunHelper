@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace UltraSpeedrunHelper
 {
-    [BepInPlugin("protract.uk.speedrunhelper", "SpeedrunHelper", "1.0.0")]
+    [BepInPlugin("protract.uk.speedrunhelper", "SpeedrunHelper", "1.1.0")]
     [BepInProcess("ULTRAKILL.exe")]
 
     public class Plugin : BaseUnityPlugin

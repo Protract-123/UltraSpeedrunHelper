@@ -11,7 +11,6 @@ namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
         StatsManager stats = MonoSingleton<StatsManager>.Instance;
         float seconds;
         string timeString;
-        public string stringToEdit = "";
 
         private void OnGUI()
         {
@@ -21,7 +20,7 @@ namespace UltraSpeedrunHelper.UltraSpeedrunHelper.UI
             bool flag = gameObject != null;
             if (flag)
             {
-                stringToEdit = GUI.TextField(rect2, stringToEdit, 25);
+                SpeedrunHelper.category = GUI.TextField(rect2, SpeedrunHelper.category, 25);
 
                 rect.y += 20f;                
                 
