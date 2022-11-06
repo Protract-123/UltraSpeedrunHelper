@@ -4,7 +4,8 @@
 
 Follow this guide to install the mod, make sure to put the mod in the plugin's folder after the install of bepinex
 
-<iframe width="2225" height="907" src="https://www.youtube.com/embed/meNiXcbPh_s" title="HOW TO INSTALL ULTRAKILL MODS with BepInEx In Under Two Minutes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Alt text](https://img.youtube.com/vi/meNiXcbPh_s/0.jpg)](https://www.youtube.com/watch?v=meNiXcbPh_s)
+
 
 <h2>Features</h2>
 
